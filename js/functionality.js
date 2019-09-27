@@ -1,151 +1,61 @@
-let questions = [
-  {
-    question: "Which has the lowest atomic number?",
-    questionType: "min",
-    answerType: "name",
-    fill: "NA",
-    answerdata: "atomicNumber",
-    answer: ""
-  },
-  {
-    question: "Which has the highest atomic number?",
-    questionType: "max",
-    answerType: "name",
-    answerdata: "atomicNumber",
-    fill: "NA",
-    answer: ""
-  },
-  {
-    question: "Which element has the symbol of _?",
-    questionType: "match",
-    answerType: "name",
-    answerdata: "name",
-    fill: "symbol",
-    answer: ""
-  },
-  {
-    question: "Which is the symbol of _?",
-    questionType: "match",
-    answerType: "symbol",
-    answerdata: "symbol",
-    fill: "name",
-    answer: ""
-  },
-  {
-    question: "Which has the greatest atomic mass?",
-    questionType: "max",
-    answerType: "name",
-    answerdata: "atomicMass",
-    fill: "NA",
-    answer: ""
-  },
-  {
-    question: "Which has the least atomic mass?",
-    questionType: "min",
-    answerType: "name",
-    answerdata: "atomicMass",
-    fill: "NA",
-    answer: ""
-  },
-  {
-    question: "Which has the greatest electronegativity?",
-    questionType: "max",
-    answerType: "name",
-    answerdata: "electronegativity",
-    fill: "NA",
-    answer: ""
-  },
-  {
-    question: "Which has the least electronegativity?",
-    questionType: "min",
-    answerType: "name",
-    answerdata: "electronegativity",
-    fill: "NA",
-    answer: ""
-  }
-];
+//Global Variables
+let correct = "";
 
-function selectQuestion() {
-  // Local Variables
-  let q = questions[Math.floor(Math.random() * questions.length)];
-  let question = q.question;
-  let temp = question.split("_");
-  let element = table[Math.floor(Math.random() * 118)];
+function loadQuestion() {
+  // Select Question
+  let question = questions[Math.floor(Math.random() * questions.length)];
+  console.log(question);
 
-  // Get the question displayed to the user
-  switch (q.fill) {
-    case "NA":
-      // Nothing to do here
-      break;
-    case "symbol":
-      let symbol = element.symbol;
-      question = temp[0] + symbol + temp[1];
-      break;
-    case "name":
-      let name = element.name;
-      question = temp[0] + name + temp[1];
-      break;
-    default:
-      alert("q.fill switch unexpected > function selectQuestion()");
-      break;
-  }
-  $("#question").text(question);
-
-  // Determine the answer
-  switch (q.answerType) {
-    case "max":
-      break;
-    case "min":
-      break;
-    case "match":
-      break;
-    default:
-      break;
-  }
-
-  // Display answer choices
-  selectAnswers(q.answerType);
-}
-
-function selectAnswers(answerType) {
-  let answers = ["", "", "", ""];
+  // Select Answer Choices
+  let answerChoices = [];
   do {
-    for (let i = 0; i < 4; i++) {
-      do {
-        let property = "";
-        let element = table[Math.floor(Math.random() * 118)];
-        switch (answerType) {
-          case "name":
-            property = element.name;
-            break;
-          case "symbol":
-            property = element.symbol;
-            break;
-          default:
-            alert("answerType switch unexpected > function selectAnswers()");
-            break;
-        }
-        if (!answers.includes(property)) answers[i] = property;
-      } while (answers[i] === "");
-      $("#answerChoices").append(
-        $("<div>")
-          .text(answers[i])
-          .attr("class", "answerChoices")
-      );
-    }
-  } while (!questionSolvable());
+    let element = table[Math.floor(Math.random() * table.length)];
+    if (!answerChoices.includes(element)) answerChoices.push(element);
+  } while (answerChoices.length < 4);
+  console.log(answerChoices);
+
+  // Select Correct Answer
+  let correctSlot = Math.floor(Math.random() * 4);
+
+  // Display Question
+  $("#question").text(
+    question.replace("ELEMENT", answerChoices[correctSlot].name)
+  );
+
+  // Determine which question was asked
+  if (question.includes("atomic number")) {
+    // Display Answer Choices
+    $("#answerChoiceLabel1").text(answerChoices[0].atomicNumber);
+    $("#answerChoice1").attr("value", answerChoices[0].atomicNumber);
+    $("#answerChoiceLabel2").text(answerChoices[1].atomicNumber);
+    $("#answerChoice2").attr("value", answerChoices[1].atomicNumber);
+    $("#answerChoiceLabel3").text(answerChoices[2].atomicNumber);
+    $("#answerChoice2").attr("value", answerChoices[2].atomicNumber);
+    $("#answerChoiceLabel4").text(answerChoices[3].atomicNumber);
+    $("#answerChoice3").attr("value", answerChoices[3].atomicNumber);
+
+    // Set correct
+    correct = answerChoices[correctSlot].atomicNumber;
+  } else if (question.includes("symbol")) {
+    // Display Answer Choices
+    $("#answerChoiceLabel1").text(answerChoices[0].symbol);
+    $("#answerChoice1").attr("value", answerChoices[0].symbol);
+    $("#answerChoiceLabel2").text(answerChoices[1].symbol);
+    $("#answerChoice2").attr("value", answerChoices[1].symbol);
+    $("#answerChoiceLabel3").text(answerChoices[2].symbol);
+    $("#answerChoice2").attr("value", answerChoices[2].symbol);
+    $("#answerChoiceLabel4").text(answerChoices[3].symbol);
+    $("#answerChoice3").attr("value", answerChoices[3].symbol);
+
+    // Set correct
+    correct = answerChoices[correctSlot].symbol;
+  }
 }
 
-function questionSolvable() {}
+$("#form").submit(e => {
+  e.preventDefault();
 
-$(".answerChoices").on("click", function() {});
+  $("input[name='answerChoice']:checked").val();
+});
 
-function startTimer() {
-  let timer = setInterval(function() {
-    $("#time").css("width", "3%");
-  }, 100);
-}
-
-selectQuestion();
-
-array.forEach(element, function() {});
+loadQuestion();
