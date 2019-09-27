@@ -1,28 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Periodic Quiz</title>
-    <link rel="stylesheet" type="text/css" href="css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- jQuery-->
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="grid">
-        <div id="header">Periodic Quiz</div>
-        <div id="content">
-            <div id="q">
-                <div id="question"></div>
-                <div id="answerChoices"></div>
-            </div>
-            <div id=chart></div>
-            <img id="time" src="images/progress.png"></img>
-        </div>
+      <div id="header">Periodic Quiz</div>
+      <div id="content">
+        <form id="form">
+          <p id="question"></p>
+          <div>
+            <input type="radio" id="answerChoice1" name="answerChoice" value="ERROR" />
+            <label for="answerChoice1" id="answerChoiceLabel1">ERROR</label>
+          </div>
+          <div>
+            <input type="radio" id="answerChoice2" name="answerChoice" value="ERROR" />
+            <label for="answerChoice1" id="answerChoiceLabel2">ERROR</label>
+          </div>
+          <div>
+            <input type="radio" id="answerChoice3" name="answerChoice" value="ERROR" />
+            <label for="answerChoice1" id="answerChoiceLabel3">ERROR</label>
+          </div>
+          <div>
+            <input type="radio" id="answerChoice4" name="answerChoice" value="ERROR" />
+            <label for="answerChoice1" id="answerChoiceLabel4">ERROR</label>
+          </div>
+        </form>
+        <div id="chart"></div>
+        <img id="time" src="images/progress.png" />
+      </div>
     </div>
 
+    <!-- JS -->
     <script src="js/table.js"></script>
     <script src="js/functionality.js"></script>
-</body>
+  </body>
 </html>
