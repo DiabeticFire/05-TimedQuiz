@@ -1,5 +1,7 @@
 //Global Variables
 let correct = "";
+let answeredCorrectly = 0;
+let answeredIncorrectly = 0;
 
 function loadQuestion() {
   // Select Question
@@ -49,17 +51,50 @@ function loadQuestion() {
 
     // Set correct
     correct = answerChoices[correctSlot].symbol;
+
+    // Set Timer
+    let remainingTicks = 100;
+    $("#time").css("width", "100%");
+    let timer = setInterval(() => {
+      remainingTicks -= 1;
+      $("#time").css("width", remainingTicks + "%");
+
+      if (remainingTicks === 0) {
+        questionEnded(false);
+      }
+    }, 50);
   }
 }
 
 $("#form").submit(e => {
   e.preventDefault();
 
-  if ($("input[name='answerChoice']:checked").val() == correct) {
-    console.log("CORRECT!");
+  if ($("input[name='answerChoice']:checked").val() === correct) {
+    questionEnded(true);
   } else {
-    console.log("WRONG!");
+    questionEnded(false);
   }
+
+  questionEnded();
 });
+
+function questionEnded(correctness) {
+  if (correctness) {
+    answeredCorrectly += 1;
+    alert("CORRECT!");
+  } else {
+    answeredIncorrectly += 1;
+    alert("WRONG!");
+  }
+
+  if (answeredCorrectly + answeredIncorrectly === 10) {
+    alert(
+      "GAME OVER\nCorrect: " +
+        answeredCorrectly +
+        "\nIncorrect: " +
+        answeredIncorrectly
+    );
+  } else loadQuestion();
+}
 
 loadQuestion();
