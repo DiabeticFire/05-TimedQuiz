@@ -30,9 +30,9 @@ function loadQuestion() {
     $("#answerChoiceLabel2").text(answerChoices[1].atomicNumber);
     $("#answerChoice2").attr("value", answerChoices[1].atomicNumber);
     $("#answerChoiceLabel3").text(answerChoices[2].atomicNumber);
-    $("#answerChoice2").attr("value", answerChoices[2].atomicNumber);
+    $("#answerChoice3").attr("value", answerChoices[2].atomicNumber);
     $("#answerChoiceLabel4").text(answerChoices[3].atomicNumber);
-    $("#answerChoice3").attr("value", answerChoices[3].atomicNumber);
+    $("#answerChoice4").attr("value", answerChoices[3].atomicNumber);
 
     // Set correct
     correct = answerChoices[correctSlot].atomicNumber;
@@ -43,9 +43,9 @@ function loadQuestion() {
     $("#answerChoiceLabel2").text(answerChoices[1].symbol);
     $("#answerChoice2").attr("value", answerChoices[1].symbol);
     $("#answerChoiceLabel3").text(answerChoices[2].symbol);
-    $("#answerChoice2").attr("value", answerChoices[2].symbol);
+    $("#answerChoice3").attr("value", answerChoices[2].symbol);
     $("#answerChoiceLabel4").text(answerChoices[3].symbol);
-    $("#answerChoice3").attr("value", answerChoices[3].symbol);
+    $("#answerChoice4").attr("value", answerChoices[3].symbol);
 
     // Set correct
     correct = answerChoices[correctSlot].symbol;
@@ -55,7 +55,11 @@ function loadQuestion() {
 $("#form").submit(e => {
   e.preventDefault();
 
-  $("input[name='answerChoice']:checked").val();
+  if ($("input[name='answerChoice']:checked").val() == correct) {
+    console.log("CORRECT!");
+  } else {
+    console.log("WRONG!");
+  }
 });
 
 loadQuestion();
