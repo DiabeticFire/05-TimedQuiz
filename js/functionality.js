@@ -2,6 +2,7 @@
 let correct = "";
 let answeredCorrectly = 0;
 let answeredIncorrectly = 0;
+let timer;
 
 function loadQuestion() {
   // Select Question
@@ -18,7 +19,9 @@ function loadQuestion() {
   let correctSlot = Math.floor(Math.random() * 4);
 
   // Display Question
-  $("#question").text(question.replace("ELEMENT", answerChoices[correctSlot].name));
+  $("#question").text(
+    question.replace("ELEMENT", answerChoices[correctSlot].name)
+  );
 
   // Determine which question was asked
   if (question.includes("atomic number")) {
@@ -50,43 +53,48 @@ function loadQuestion() {
   }
   console.log("correct:  " + correct);
 
-  // Set Timer
-  // let remainingTicks = 100;
-  // $("#time").css("width", "100%");
-  // let timer = setInterval(() => {
-  //   remainingTicks -= 1;
-  //   $("#time").css("width", remainingTicks + "%");
+  //Set Timer
+  let remainingTicks = 100;
+  $("#time").css("width", "100%");
+  // if (timer) clearTimeout(timer);
+  timer = setInterval(() => {
+    remainingTicks -= 1;
+    $("#time").css("width", remainingTicks + "%");
 
-  //   if (remainingTicks === 0) {
-  //     questionEnded(false);
-  //   }
-  // }, 200);
+    if (remainingTicks === 0) {
+      clearTimeout(timer);
+      answeredIncorrectly += 1;
+      alert("Ran Out Of Time!\n '" + correct + "' was the correct answer");
+    }
+  }, 100);
 }
 
-$("#form").submit((e) => {
+$("#form").submit(e => {
   e.preventDefault();
 
   console.log("answered: " + $("input[name='answerChoice']:checked").val());
 
   if ($("input[name='answerChoice']:checked").val() === correct) {
-    questionEnded(true);
-  } else {
-    questionEnded(false);
-  }
-});
-
-function questionEnded(correctness) {
-  console.log(correctness);
-  if (correctness) {
     answeredCorrectly += 1;
     alert("CORRECT!");
   } else {
     answeredIncorrectly += 1;
-    alert("WRONG!sxdfcgvbhxsdfc gvhb");
+    alert("WRONG!\n '" + correct + "' was the correct answer");
   }
 
+  questionEnded();
+});
+
+function questionEnded() {
+  clearTimeout(timer);
+
   if (answeredCorrectly + answeredIncorrectly === 5) {
-    alert("GAME OVER\nCorrect: " + answeredCorrectly + "\nIncorrect: " + answeredIncorrectly);
+    alert(
+      "GAME OVER\nCorrect: " +
+        answeredCorrectly +
+        "\nIncorrect: " +
+        answeredIncorrectly
+    );
   } else loadQuestion();
 }
 
